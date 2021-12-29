@@ -18,6 +18,13 @@ void signal_handler(int sig) {
             write(STDOUT_FILENO, child_str, sizeof(child_str) - 1);
         } else {
             write(STDOUT_FILENO, parent_str, sizeof(parent_str) - 1);
+        }hi
+    }
+    else if(sig == SIGTSTP){
+        if (is_child) {
+            write(STDOUT_FILENO, child_str, sizeof(child_str) - 1);
+        } else {
+            write(STDOUT_FILENO, parent_str, sizeof(parent_str) - 1);
         }
     }
 }
@@ -27,6 +34,7 @@ int main(int argc, char **argv) {
 
     (void)argv;
     signal(SIGINT, signal_handler);
+    signal(SIGTSTP, signal_handler);
     signal(SIGUSR1, signal_handler);
     pid = fork();
     assert(pid != -1);
@@ -51,7 +59,7 @@ int main(int argc, char **argv) {
     pgid = getpgid(0);
     printf("parent pid, pgid = %ju, %ju\n", (uintmax_t)getpid(), (uintmax_t)pgid);
     /* man kill explains that negative first argument means to send a signal to a process group. */
-    kill(-pgid, SIGINT);
+    //kill(-pgid, SIGINT);
     sleep(5);
     //while (1);
 }
