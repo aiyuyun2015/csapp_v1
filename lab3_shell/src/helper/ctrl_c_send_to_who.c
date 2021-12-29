@@ -18,7 +18,7 @@ void signal_handler(int sig) {
             write(STDOUT_FILENO, child_str, sizeof(child_str) - 1);
         } else {
             write(STDOUT_FILENO, parent_str, sizeof(parent_str) - 1);
-        }hi
+        }
     }
     else if(sig == SIGTSTP){
         if (is_child) {
